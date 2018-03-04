@@ -14,16 +14,39 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import EnsureLoggedIn from 'containers/EnsureLoggedIn/index'
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import WelcomePage from 'containers/WelcomePage/Loadable';
 
-export default function App() {
-  return (
-    <div>
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </div>
-  );
+export default class App extends React.Component {
+
+  componentDidUpdate(prevProps) {
+    const { dispatch, redirectUrl } = this.props
+    const isLoggingOut = prevProps.isLoggedIn && !this.props.isLoggedIn
+    const isLoggingIn = !prevProps.isLoggedIn && this.props.isLoggedIn
+
+    if (isLoggingIn) {
+      dispatch(navigateTo(redirectUrl))
+    } else if (isLoggingOut) {
+      // do any kind of cleanup or post-logout redirection here
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Route path="/" component={WelcomePage}>
+          {/* <Route path="cart" component={Cart}/> */}
+          {/* <Route path="login" component={Login}/> */}
+
+          <Route component={EnsureLoggedIn}>
+            <Route path="/" component={HomePage}/>
+            {/* <Route path="account" component={Account}/> */}
+          </Route>
+        </Route>
+      </div>
+
+    );
+  }
 }
