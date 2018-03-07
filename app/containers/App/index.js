@@ -12,21 +12,24 @@
  */
 
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import PrivateRoute from 'components/PrivateRoute/index';
-import HomePage from 'containers/HomePage/index';
-import LoginPage from 'containers/LoginPage/index';
-// import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import HomePage from 'containers/HomePage/Loadable';
+import LoginPage from 'containers/LoginPage/Loadable';
+import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import WelcomePage from 'containers/WelcomePage/Loadable';
-
 
 export default function App() {
   return (
     <div>
-      <Route path="/" exact component={WelcomePage} />
-      <Route path="/login" exact component={LoginPage} />
-      <PrivateRoute path="/home" component={HomePage} />
+      <Switch>
+        <Route path="/" exact component={WelcomePage} />
+        <Route path="/login" component={LoginPage} />
+        <PrivateRoute path="/home" component={HomePage} />
+        <Route path="" component={NotFoundPage} />
+      </Switch>
+
     </div>
   );
 }
