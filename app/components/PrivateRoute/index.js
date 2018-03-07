@@ -24,6 +24,6 @@ export default function PrivateRoute({ component: Component, ...rest }) {
 }
 
 PrivateRoute.propTypes = {
-  component: React.PropTypes.object,
-  path: React.PropTypes.object,
+  component: React.PropTypes.func,
+  path: React.PropTypes.string,
 };
